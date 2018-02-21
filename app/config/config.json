@@ -1,21 +1,21 @@
 {
 	"db": {
-		"username": "<MongoDBUsername>",
-		"password": "<MongoDBPassword>",
-		"host": "<MongoDBHost>",
-		"port": "<MongoDBPort>",
-		"name": "<MongoDBName>"
+		"username": "EisenUlfr",
+		"password": "KostbarRefr",
+		"host": "ds245238.mlab.com",
+		"port": "45238",
+		"name": "watch8"
 	},
-	"sessionSecret": "<RandomString>",
+	"sessionSecret": "yJmVy2RG1rTNtgkh8skNrA0DJOyz1dJAIUGVGJP36ZOoQCed8O6zPeufg4oFbIZB",
 	"facebook": {
-		"clientID": "<AppID>",
-		"clientSecret": "<AppSecret>",
+		"clientID": "158964084906072",
+		"clientSecret": "189bbfb2c1585c0c24a6d5414d735388",
 		"callbackURL": "/auth/facebook/callback",
 		"profileFields": ["id", "displayName", "photos"]
 	},
 	"twitter": {
-		"consumerKey": "<ConsumerKey>",
-		"consumerSecret": "<ConsumerSecret>",
+		"consumerKey": "SdSOcCQvXDJHbE39IO639MnKq",
+		"consumerSecret": "kX9cnmKkQNIL44inOkmFi8wIo8ZKzNNmDlbtx8nVyNp1tAS3jV",
 		"callbackURL": "/auth/twitter/callback",
 		"profileFields": ["id", "displayName", "photos"]
 	},

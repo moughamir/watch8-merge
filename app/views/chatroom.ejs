@@ -1,48 +1,204 @@
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <title>Chat IO</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
-  </head>
-  <body>
-    <a href="https://github.com/OmarElGabry/chat.io" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <div class="container clearfix">
-      <div class="chat">
-        <div class="chat-header clearfix">
-          <img src="<%= user.picture %>" alt="avatar">
-          <div class="chat-about">
-            <div class="chat-room"><%= room.title %></div>
-            <div class="chat-num-users"> User(s)</div>
-          </div>
-          <i class="fa fa-users"></i>
-        </div> <!-- end chat-header -->
-        
-        <div class="chat-history">
-          <ul>
-          </ul>
-        </div> <!-- end chat-history -->
-        
-        <div class="chat-message clearfix">
-          <textarea name="message" placeholder ="Type your message" rows="3"></textarea> 
-          <button type="submit">Send</button>
-        </div> <!-- end chat-message -->
-      </div> <!-- end chat -->
-      
-      <div class="controls">
-          <a href="/logout" class="logout-btn">Logout</a>
-          <a href="/rooms" class="rooms-btn">Rooms</a>
-      </div>
+<html lang="en">
 
-      <div class="users-list">
-        <ul class="list">
-        </ul>
+<head>
+  <meta charset="UTF-8">
+  <title>Drinking Buddies 🥂 | Watch8 👫</title>
+  <!--link rel="stylesheet" href="/css/style.css"-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+  <link href="//vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet prefetch">
+  <link rel="stylesheet" href="/css/videoPlayer.css">
+</head>
+
+<body>
+  <style>
+    html,
+    body {
+      height: 100%;
+      background: #223971 linear-gradient(36deg, #c05a9c, #223971) no-repeat center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .list {
+      list-style: none;
+    }
+
+    .list li {
+      display: flex;
+      margin: 8px 0;
+    }
+
+    .about {
+      margin-left: 12px;
+    }
+
+    li>img {
+      border-radius: 50%;
+      border: 3px solid #ffffffe6;
+      box-shadow: 0px 0px 3px #262323;
+    }
+
+    .name {
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 1px 1px #333;
+    }
+
+    .status {
+      color: #ffffff;
+    }
+
+    .fa.fa-circle.online {
+      color: #21ef21;
+    }
+
+    .chat-history {
+      height: 75%;
+      background: rgba(255, 255, 255, 0.15);
+      margin: 5px 0;
+      box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.26);
+      overflow-y: scroll;
+      padding-top: 20px;
+    }
+
+    .col-md-2[type="submit"] {
+      height: auto;
+      border: none;
+      flex: 1 1 auto;
+      padding: 30px 0;
+      text-align: center;
+      text-transform: uppercase;
+      transition: 0.5s;
+      background-size: 200% auto;
+      color: white;
+      text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+      background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%);
+    }
+
+    .col-md-2[type="submit"]:hover {
+      background-position: right center;
+    }
+
+    .chat {
+      height: 100%;
+    }
+
+    .remote {
+      width: 42px;
+      height: 42px;
+      position: absolute;
+      right: 19px;
+      top: 10px;
+      transform: translateX(-19px) rotate(45deg);
+      filter: drop-shadow(0 0 1px #fffdfd);
+      transition: all .2s;
+    }
+
+    .remote:hover {
+      transform: translateX(-19px) rotate(15deg);
+      filter: drop-shadow(0 0 5px #fffdfd);
+    }
+  </style>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background-color: #343a4066 !important;box-shadow: 1px 1px 21px #353535;">
+    <a class="navbar-brand" href="#">Watch8 <img src="/img/snuggle2.png" style="width: 60px; height: 60px"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/rooms">Rooms</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="/events/#">Events</a>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="/account" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="/profile">Profile</a>
+            <a class="dropdown-item" href="/logout">logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container-fluid" style="padding: 2rem 1rem 1rem 0; height: calc(100vh - 87px);">
+    <div class="row" style="height: 100%;">
+      <div class="col-md-9">
+        <main class="" style="height: 100%;">
+          <div class="videoPlayer" style="height: 100%;">
+            <video id="my-video" class="video-js" controls preload="auto" poster="//www.soundtrackmania.net/wp-content/uploads/2013/08/drinking-buddies.jpg" data-setup="{}" style="height: 100%; width: 100%;">
+          <source src="https://dl.dropboxusercontent.com/s/hjg51wexe6mmjj6/DrinkingBuddies.webm?dl=0" type="video/webm">
+          <track kind="captions" src="https://dl.dropboxusercontent.com/s/xlv77zcyjtcozid/Drinking.Buddies.2013.720p.BluRay.x264.YIFY.english.vtt" srclang="en" label="English" default>
+          <track kind="captions" src="https://dl.dropboxusercontent.com/s/roqx198oa4u1f30/Drinking.Buddies.2013.720p.BluRay.x264.YIFY.arabic.vtt" srclang="ar" label="العربية">
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that
+            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+          </p>
+        </video>
+          </div>
+        </main>
       </div>
-    </div> <!-- end container -->
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
-    <script>$(function(){app.chat('<%= room.id %>', '<%= user.username %>')});</script>
-  </body>
+      <div class="col-md-3">
+        <aside class="" style="height: 100%;">
+          <div class="chat">
+            <div class="chat-header clearfix">
+              <!--img src="<%= user.picture %>" alt="avatar"-->
+              <div class="chat-about">
+                <div class="chat-room">
+                  <h2 style="color: #fff">
+                    <%= room.title %>
+                  </h2>
+                </div>
+                <div class="remote"><img src="/img/remote.svg"></div>
+                <div class="chat-num-users"> User(s)</div>
+              </div>
+              <i class="fa fa-users"></i>
+            </div>
+            <!-- end chat-header -->
+
+            <div class="chat-history">
+              <ul>
+              </ul>
+            </div>
+            <!-- end chat-history -->
+
+            <div class="chat-message clearfix row" style="margin: 20px auto auto;">
+              <textarea class="col-md-10" name="message" placeholder="Type your message" rows="3"></textarea>
+              <button class="col-md-2" type="submit">Send</button>
+            </div>
+            <!-- end chat-message -->
+          </div>
+          <!-- end chat -->
+          <!--div class="users-list">
+            <ul class="list">
+            </ul>
+          </div-->
+
+        </aside>
+      </div>
+    </div>
+  </div>
+  <!-- end container -->
+  <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="//vjs.zencdn.net/6.6.3/video.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    $(function() { app.chat('<%= room.id %>', '<%= user.username %>') });
+  </script>
+</body>
+
 </html>

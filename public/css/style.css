@@ -3,9 +3,13 @@
 *, *:before, *:after {
   box-sizing: border-box;
 }
-
+html,
 body {
-  background: #C5DDEB;
+  height: 100%;
+  background: #223971 linear-gradient(36deg, #c05a9c, #223971) no-repeat center fixed;
+  background-size: cover;
+}
+body {
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;   
