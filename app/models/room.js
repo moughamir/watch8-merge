@@ -10,19 +10,19 @@ var create = function (data, callback){
 
 var find = function (data, callback){
 	roomModel.find(data, callback);
-}
+};
 
 var findOne = function (data, callback){
 	roomModel.findOne(data, callback);
-}
+};
 
 var findById = function (id, callback){
 	roomModel.findById(id, callback);
-}
+};
 
 var findByIdAndUpdate = function(id, data, callback){
 	roomModel.findByIdAndUpdate(id, data, { new: true }, callback);
-}
+};
 
 /**
  * Add a user along with the corresponding socket to the passed room
@@ -37,7 +37,7 @@ var addUser = function(room, socket, callback){
 	var conn = { userId: userId, socketId: socket.id};
 	room.connections.push(conn);
 	room.save(callback);
-}
+};
 
 /**
  * Get all users in a room
@@ -75,7 +75,7 @@ var getUsers = function(room, socket, callback){
 			}
 		});
 	});
-}
+};
 
 /**
  * Remove a user along with the corresponding socket from a room
@@ -116,13 +116,14 @@ var removeUser = function(socket, callback){
 			return pass;
 		});
 	});
-}
+};
 
 module.exports = { 
 	create, 
 	find, 
 	findOne, 
-	findById, 
+	findById,
+	findByIdAndUpdate,
 	addUser, 
 	getUsers, 
 	removeUser 

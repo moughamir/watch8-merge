@@ -4,7 +4,7 @@ var Mongoose 	= require('mongoose');
 var bcrypt      = require('bcrypt-nodejs');
 
 const SALT_WORK_FACTOR = 10;
-const DEFAULT_USER_PICTURE = "/img/user.jpg";
+//const DEFAULT_USER_PICTURE = "https://api.adorable.io/avatars/285/"+this.username+".png";
 
 /**
  * Every user has a username, password, socialId, and a picture.
@@ -19,7 +19,7 @@ var UserSchema = new Mongoose.Schema({
     username: { type: String, required: true},
     password: { type: String, default: null },
     socialId: { type: String, default: null },
-    picture:  { type: String, default:  DEFAULT_USER_PICTURE}
+    picture:  { type: String, default: null}
 });
 
 /**
@@ -33,7 +33,7 @@ UserSchema.pre('save', function(next) {
 
     // ensure user picture is set
     if(!user.picture){
-        user.picture = DEFAULT_USER_PICTURE;
+        user.picture = "https://api.adorable.io/avatars/285/"+user.username+".png";
     }
 
     // only hash the password if it has been modified (or is new)

@@ -6,13 +6,24 @@ var logger 		= require('../logger');
 
 // Connect to the database
 // construct the database URI and encode username and password.
-var dbURI = "mongodb://" + 
+const dbURI = "mongodb://" + 
 			encodeURIComponent(config.db.username) + ":" + 
 			encodeURIComponent(config.db.password) + "@" + 
 			config.db.host + ":" + 
 			config.db.port + "/" + 
 			config.db.name;
-Mongoose.connect(dbURI);
+
+const options = {
+  useMongoClient: true,
+  autoIndex: true, // Don't build indexes
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0
+};
+
+Mongoose.connect(dbURI, options);
 
 // Throw an error if the connection fails
 Mongoose.connection.on('error', function(err) {

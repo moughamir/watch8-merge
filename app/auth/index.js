@@ -64,6 +64,6 @@ var init = function(){
 	passport.use(new TwitterStrategy(config.twitter, verifySocialAccount));
 
 	return passport;
-}
+};
 	
 module.exports = init();

@@ -55,7 +55,8 @@
     }
 
     .chat-history {
-      height: 75%;
+      height: 52vh;
+      ;
       background: rgba(255, 255, 255, 0.15);
       margin: 5px 0;
       box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.26);
@@ -100,6 +101,37 @@
     .remote:hover {
       transform: translateX(-19px) rotate(15deg);
       filter: drop-shadow(0 0 5px #fffdfd);
+    }
+
+    .message {
+      padding: 5px;
+      background: #21252900 linear-gradient(to right, #21252994, #53346d);
+      color: #fff;
+      border-radius: 6px 17px;
+    }
+
+    .message-data-time {
+      font-size: xx-small;
+      color: #fefefe;
+    }
+
+    .message-data-name {
+      font-weight: 600;
+      color: #f2f2f2;
+      text-shadow: 1px 0px 2px #000;
+    }
+
+    .chat-history ul li {
+      padding: 0 5px;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #ffffff80;
+      box-sizing: content-box;
+      box-shadow: 0px 0px 4px #333;
     }
   </style>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background-color: #343a4066 !important;box-shadow: 1px 1px 21px #353535;">
@@ -153,7 +185,7 @@
         <aside class="" style="height: 100%;">
           <div class="chat">
             <div class="chat-header clearfix">
-              <!--img src="<%= user.picture %>" alt="avatar"-->
+              <img src="<%= user.picture %>" alt="avatar" class="user-avatar">
               <div class="chat-about">
                 <div class="chat-room">
                   <h2 style="color: #fff">
@@ -168,7 +200,7 @@
             <!-- end chat-header -->
 
             <div class="chat-history">
-              <ul>
+              <ul style="list-style: none; padding: 0;">
               </ul>
             </div>
             <!-- end chat-history -->
@@ -180,10 +212,10 @@
             <!-- end chat-message -->
           </div>
           <!-- end chat -->
-          <!--div class="users-list">
+          <div class="users-list">
             <ul class="list">
             </ul>
-          </div-->
+          </div>
 
         </aside>
       </div>
