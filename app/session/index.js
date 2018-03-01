@@ -24,7 +24,8 @@ var init = function () {
 			secret: config.sessionSecret,
 			resave: false,
 			unset: 'destroy',
-			saveUninitialized: true
+			saveUninitialized: true,
+			store: new MongoStore({ mongooseConnection: db.Mongoose.connection })
 		});
 	}
 }

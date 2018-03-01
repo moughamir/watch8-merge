@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Drinking Buddies 🥂 | Watch8 👫</title>
+  <title>
+    <%= room.title %> | Watch8 👫</title>
   <!--link rel="stylesheet" href="/css/style.css"-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
@@ -55,27 +56,32 @@
     }
 
     .chat-history {
-      height: 52vh;
-      ;
+      height: 80%;
       background: rgba(255, 255, 255, 0.15);
-      margin: 5px 0;
+      margin: 2px 0;
       box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.26);
       overflow-y: scroll;
       padding-top: 20px;
+    }
+
+    .col-md-10[name="message"] {
+      height: 60px;
+      border-radius: 0;
+      border: none;
     }
 
     .col-md-2[type="submit"] {
       height: auto;
       border: none;
       flex: 1 1 auto;
-      padding: 30px 0;
+      padding: 18px 0;
       text-align: center;
       text-transform: uppercase;
       transition: 0.5s;
       background-size: 200% auto;
       color: white;
       text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      border-radius: 2px;
+      border-radius: 0 3px 3px 0;
       background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%);
     }
 
@@ -164,24 +170,23 @@
       </ul>
     </div>
   </nav>
-  <div class="container-fluid" style="padding: 2rem 1rem 1rem 0; height: calc(100vh - 87px);">
+  <div class="container-fluid" style="padding: .8rem; height: calc(100vh - 87px);">
     <div class="row" style="height: 100%;">
-      <div class="col-md-9">
+      <div class="col-md-9" style="height: inherit;padding: 0 4px 0 0;">
         <main class="" style="height: 100%;">
           <div class="videoPlayer" style="height: 100%;">
-            <video id="my-video" class="video-js" controls preload="auto" poster="//www.soundtrackmania.net/wp-content/uploads/2013/08/drinking-buddies.jpg" data-setup="{}" style="height: 100%; width: 100%;">
-          <source src="https://dl.dropboxusercontent.com/s/hjg51wexe6mmjj6/DrinkingBuddies.webm?dl=0" type="video/webm">
-          <track kind="captions" src="https://dl.dropboxusercontent.com/s/xlv77zcyjtcozid/Drinking.Buddies.2013.720p.BluRay.x264.YIFY.english.vtt" srclang="en" label="English" default>
-          <track kind="captions" src="https://dl.dropboxusercontent.com/s/roqx198oa4u1f30/Drinking.Buddies.2013.720p.BluRay.x264.YIFY.arabic.vtt" srclang="ar" label="العربية">
-          <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-          </p>
-        </video>
+            <video id="my-video" class="video-js" poster="<%= room.poster %>" controls preload="auto" data-setup="{}" style="height: 100%; width: 100%;">
+              <source src="<%- room.movie %>">
+              <p class="vjs-no-js">
+              To view this video please enable JavaScript, and consider upgrading to a web browser that
+              <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+              </p>
+            </video>
           </div>
         </main>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" style="height: inherit;padding: 0 8px 0 0;">
+
         <aside class="" style="height: 100%;">
           <div class="chat">
             <div class="chat-header clearfix">
@@ -189,13 +194,14 @@
               <div class="chat-about">
                 <div class="chat-room">
                   <h2 style="color: #fff">
-                    <%= room.title %>
+                    <%= room.title %> | <small class="chat-num-users"> User(s)</small>
                   </h2>
                 </div>
                 <div class="remote"><img src="/img/remote.svg"></div>
-                <div class="chat-num-users"> User(s)</div>
+                
+
               </div>
-              <i class="fa fa-users"></i>
+
             </div>
             <!-- end chat-header -->
 
@@ -205,17 +211,19 @@
             </div>
             <!-- end chat-history -->
 
-            <div class="chat-message clearfix row" style="margin: 20px auto auto;">
-              <textarea class="col-md-10" name="message" placeholder="Type your message" rows="3"></textarea>
+            <div class="chat-message clearfix row" style="margin: 8px auto auto;bottom: 0;">
+              <textarea class="col-md-10" name="message" placeholder="Type your message"></textarea>
               <button class="col-md-2" type="submit">Send</button>
             </div>
             <!-- end chat-message -->
           </div>
           <!-- end chat -->
+          <%#
           <div class="users-list">
             <ul class="list">
             </ul>
           </div>
+          %>
 
         </aside>
       </div>

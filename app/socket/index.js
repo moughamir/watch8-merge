@@ -16,14 +16,16 @@ var ioEvents = function(io) {
 	io.of('/rooms').on('connection', function(socket) {
 
 		// Create a new room
-		socket.on('createRoom', function(title) {
+		socket.on('createRoom', function(title, movie, poster) {
 			Room.findOne({'title': new RegExp('^' + title + '$', 'i')}, function(err, room){
 				if(err) throw err;
 				if(room){
 					socket.emit('updateRoomsList', { error: 'Room title already exists.' });
 				} else {
 					Room.create({ 
-						title: title
+						title: title,
+						movie: movie,
+						poster: poster,
 					}, function(err, newRoom){
 						if(err) throw err;
 						socket.emit('updateRoomsList', newRoom);

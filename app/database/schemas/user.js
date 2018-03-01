@@ -33,7 +33,7 @@ UserSchema.pre('save', function(next) {
 
     // ensure user picture is set
     if(!user.picture){
-        user.picture = "https://api.adorable.io/avatars/285/"+user.username+".png";
+        user.picture = "//api.adorable.io/avatars/285/"+user.username+".png";
     }
 
     // only hash the password if it has been modified (or is new)

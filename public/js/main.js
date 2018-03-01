@@ -1,5 +1,6 @@
 'use strict';
-
+/* global io*/
+/* global $*/
 var app = {
 
   rooms: function(){
@@ -24,10 +25,16 @@ var app = {
       // Whenever the user hits the create button, emit createRoom event.
       $('.room-create button').on('click', function(e) {
         var inputEle = $("input[name='title']");
+        var inputMov = $("input[name='movie']");
+        var inputPos = $("input[name='poster']");
         var roomTitle = inputEle.val().trim();
+        var roomMovie = inputMov.val().trim();
+        var roomPoster = inputPos.val().trim();
         if(roomTitle !== '') {
-          socket.emit('createRoom', roomTitle);
+          socket.emit('createRoom', roomTitle, roomMovie, roomPoster);
           inputEle.val('');
+          inputMov.val('');
+          inputPos.val('');
         }
       });
 
@@ -71,6 +78,12 @@ var app = {
             app.helpers.addMessage(message);
           }
         });
+        
+        $('.chat-message textarea').keypress(function(e){
+        if(e.which == 13){//Enter key pressed
+            $('.chat-message button').click();//Trigger send button click event
+        }
+    });
 
         // Whenever a user leaves the current room, remove the user from users list
         socket.on('removeUser', function(userId) {

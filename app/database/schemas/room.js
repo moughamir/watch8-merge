@@ -10,6 +10,7 @@ var Mongoose  = require('mongoose');
 var RoomSchema = new Mongoose.Schema({
     title: { type: String, required: true },
     movie: { type: String, required: false },
+    poster: { type: String, required: false },
     connections: { type: [{ userId: String, socketId: String }]}
 });
 
