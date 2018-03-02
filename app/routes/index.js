@@ -22,6 +22,14 @@ router.get('/', function(req, res, next) {
 	}
 });
 
+// Terms Of Use
+router.get('/terms', function(req, res, next){
+	res.render('tos');
+});
+// Privacy Policy
+router.get('/privacy-policy', function(req, res, next){
+	res.render('privacy');
+});
 // Login
 router.post('/login', passport.authenticate('local', { 
 	successRedirect: '/rooms', 
