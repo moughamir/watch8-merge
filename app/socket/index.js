@@ -1,10 +1,11 @@
 'use strict';
 
-var config 	= require('../config');
-var redis 	= require('redis').createClient;
+var config = require('../config');
+var redis = require('redis').createClient;
 var adapter = require('socket.io-redis');
 
 var Room = require('../models/room');
+var Messages = require('../models/messages');
 
 /**
  * Encapsulates all code for emitting and listening to socket events
@@ -17,17 +18,18 @@ var ioEvents = function(io) {
 
 		// Create a new room
 		socket.on('createRoom', function(title, movie, poster) {
-			Room.findOne({'title': new RegExp('^' + title + '$', 'i')}, function(err, room){
-				if(err) throw err;
-				if(room){
+			Room.findOne({ 'title': new RegExp('^' + title + '$', 'i') }, function(err, room) {
+				if (err) throw err;
+				if (room) {
 					socket.emit('updateRoomsList', { error: 'Room title already exists.' });
-				} else {
-					Room.create({ 
+				}
+				else {
+					Room.create({
 						title: title,
 						movie: movie,
 						poster: poster,
-					}, function(err, newRoom){
-						if(err) throw err;
+					}, function(err, newRoom) {
+						if (err) throw err;
 						socket.emit('updateRoomsList', newRoom);
 						socket.broadcast.emit('updateRoomsList', newRoom);
 					});
@@ -41,32 +43,33 @@ var ioEvents = function(io) {
 
 		// Join a chatroom
 		socket.on('join', function(roomId) {
-			Room.findById(roomId, function(err, room){
-				if(err) throw err;
-				if(!room){
+			Room.findById(roomId, function(err, room) {
+				if (err) throw err;
+				if (!room) {
 					// Assuming that you already checked in router that chatroom exists
 					// Then, if a room doesn't exist here, return an error to inform the client-side.
 					socket.emit('updateUsersList', { error: 'Room doesnt exist.' });
-				} else {
+				}
+				else {
 					// Check if user exists in the session
-					if(socket.request.session.passport == null){
+					if (socket.request.session.passport == null) {
 						return;
 					}
 
-					Room.addUser(room, socket, function(err, newRoom){
+					Room.addUser(room, socket, function(err, newRoom) {
 
 						// Join the room channel
 						socket.join(newRoom.id);
 
-						Room.getUsers(newRoom, socket, function(err, users, cuntUserInRoom){
-							if(err) throw err;
-							
+						Room.getUsers(newRoom, socket, function(err, users, cuntUserInRoom) {
+							if (err) throw err;
+
 							// Return list of all user connected to the room to the current user
 							socket.emit('updateUsersList', users, true);
 
 							// Return the current user to other connecting sockets in the room 
 							// ONLY if the user wasn't connected already to the current room
-							if(cuntUserInRoom === 1){
+							if (cuntUserInRoom === 1) {
 								socket.broadcast.to(newRoom.id).emit('updateUsersList', users[users.length - 1]);
 							}
 						});
@@ -79,21 +82,21 @@ var ioEvents = function(io) {
 		socket.on('disconnect', function() {
 
 			// Check if user exists in the session
-			if(socket.request.session.passport == null){
+			if (socket.request.session.passport == null) {
 				return;
 			}
 
 			// Find the room to which the socket is connected to, 
 			// and remove the current user + socket from this room
-			Room.removeUser(socket, function(err, room, userId, cuntUserInRoom){
-				if(err) throw err;
+			Room.removeUser(socket, function(err, room, userId, cuntUserInRoom) {
+				if (err) throw err;
 
 				// Leave the room channel
 				socket.leave(room.id);
 
 				// Return the user id ONLY if the user was connected to the current room using one socket
 				// The user id will be then used to remove the user from users list on chatroom page
-				if(cuntUserInRoom === 1){
+				if (cuntUserInRoom === 1) {
 					socket.broadcast.to(room.id).emit('removeUser', userId);
 				}
 			});
@@ -101,11 +104,18 @@ var ioEvents = function(io) {
 
 		// When a new message arrives
 		socket.on('newMessage', function(roomId, message) {
-
+			Messages.create({
+				roomId: roomId,
+				messages: { 
+					userId: message.username,
+					message: message.content,
+					timestamp: message.date
+				}
+			});
 			// No need to emit 'addMessage' to the current socket
 			// As the new message will be added manually in 'main.js' file
 			// socket.emit('addMessage', message);
-			
+
 			socket.broadcast.to(roomId).emit('addMessage', message);
 		});
 
@@ -117,10 +127,10 @@ var ioEvents = function(io) {
  * Uses Redis as Adapter for Socket.io
  *
  */
-var init = function(app){
+var init = function(app) {
 
-	var server 	= require('http').Server(app);
-	var io 		= require('socket.io')(server);
+	var server = require('http').Server(app);
+	var io = require('socket.io')(server);
 
 	// Force Socket.io to ONLY use "websockets"; No Long Polling.
 	io.set('transports', ['websocket']);
