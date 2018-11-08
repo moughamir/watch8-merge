@@ -4,3 +4,13 @@ http://softwareas.com/video-sync-with-websocket-and-node/
 
 https://github.com/socketio/socket.io/blob/master/examples/whiteboard/
 
+
+
+const player = videojs('oz-cast');
+// playing video
+player.play()
+// pausing
+player.pause()
+
+// sound volume control
+player.volume(FLOAT)

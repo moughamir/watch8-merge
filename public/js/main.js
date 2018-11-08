@@ -1,6 +1,8 @@
 'use strict';
 /* global io*/
 /* global $*/
+/* global videojs*/
+
 var app = {
 
   rooms: function(){
@@ -60,7 +62,10 @@ var app = {
             app.helpers.updateUsersList(users, clear);
           }
         });
-
+        $('.vjs-big-play-button').on('click', function(e){
+          socket.emit('startPlaying', roomId)
+          app.helpers.startPlayer()
+        })
         // Whenever the user hits the save button, emit newMessage event.
         $(".chat-message button").on('click', function(e) {
 
@@ -90,7 +95,10 @@ var app = {
           $('li#user-' + userId).remove();
           app.helpers.updateNumOfUsers();
         });
-
+        // Player
+        socket.on('startPlayer', function(){
+          app.helpers.startPlayer()
+        });
         // Append a new message 
         socket.on('addMessage', function(message) {
           app.helpers.addMessage(message);
@@ -165,8 +173,13 @@ var app = {
 
       // Keep scroll bar down
       $(".chat-history").animate({ scrollTop: $('.chat-history')[0].scrollHeight}, 1000);
+      var player = videojs('oz-cast');
+      player.play();
     },
-
+    startPlayer: function(){
+      player.play();
+          console.log('test');
+    },
     // Update number of rooms
     // This method MUST be called after adding a new room
     updateNumOfRooms: function(){

@@ -118,6 +118,11 @@ var ioEvents = function(io) {
 
 			socket.broadcast.to(roomId).emit('addMessage', message);
 		});
+		
+		// player
+		socket.on('startPlaying', function(roomId) {
+			socket.broadcast.to(roomId).emit('startPlayer');
+		});
 
 	});
 }
